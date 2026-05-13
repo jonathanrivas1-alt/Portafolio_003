@@ -3,7 +3,7 @@
  * no está disponible. Mantiene los componentes desacoplados.
  */
 
-import { getServerClient, isSupabaseConfigured } from './supabase';
+import { getBrowserClient, isSupabaseConfigured } from './supabase';
 import {
   PROJECTS_SEED,
   CERTIFICATIONS as CERTS_SEED,
@@ -18,7 +18,7 @@ import type {
 
 export async function fetchProjects(): Promise<Project[]> {
   if (!isSupabaseConfigured) return PROJECTS_SEED;
-  const supa = getServerClient();
+  const supa = getBrowserClient();
   if (!supa) return PROJECTS_SEED;
 
   const { data, error } = await supa
@@ -32,7 +32,7 @@ export async function fetchProjects(): Promise<Project[]> {
 
 export async function fetchCertifications(): Promise<Certification[]> {
   if (!isSupabaseConfigured) return CERTS_SEED;
-  const supa = getServerClient();
+  const supa = getBrowserClient();
   if (!supa) return CERTS_SEED;
 
   const { data, error } = await supa
@@ -46,7 +46,7 @@ export async function fetchCertifications(): Promise<Certification[]> {
 
 export async function fetchExperience(): Promise<ExperienceItem[]> {
   if (!isSupabaseConfigured) return EXP_SEED;
-  const supa = getServerClient();
+  const supa = getBrowserClient();
   if (!supa) return EXP_SEED;
 
   const { data, error } = await supa
@@ -60,7 +60,7 @@ export async function fetchExperience(): Promise<ExperienceItem[]> {
 
 export async function fetchSettings(): Promise<SiteSettings | null> {
   if (!isSupabaseConfigured) return null;
-  const supa = getServerClient();
+  const supa = getBrowserClient();
   if (!supa) return null;
 
   const { data, error } = await supa
