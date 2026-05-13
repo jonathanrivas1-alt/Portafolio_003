@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
       await resend.emails.send({
         from,
         to,
-        replyTo: email,
+        reply_to: email,
         subject: subject ? `[Portfolio] ${subject}` : `[Portfolio] Nuevo mensaje de ${name}`,
         text: `De: ${name} <${email}>\n\n${message}`,
       });
