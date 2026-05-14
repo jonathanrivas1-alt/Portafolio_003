@@ -15,16 +15,12 @@ import { InnerPageShell } from '@/components/InnerPageShell';
 import { Projects } from '@/components/sections/Projects';
 
 import { fetchProjects } from '@/lib/queries';
-
 import type { Project } from '@/lib/types';
 
 export default function ProjectsPage() {
 
-  const [projects, setProjects] =
-    useState<Project[]>([]);
-
-  const [loading, setLoading] =
-    useState<boolean>(true);
+const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
 
