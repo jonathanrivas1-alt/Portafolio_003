@@ -1,13 +1,14 @@
 'use client';
 
 /**
- * Experience & Leadership — Timeline editorial minimalista.
+ * Experience & Leadership — Timeline editorial minimalista + Certificaciones integradas.
  * Línea vertical fina con nodos, animaciones de reveal en cascada.
+ * Las certificaciones se muestran como validación técnica después del timeline.
  */
 
 import { motion } from 'framer-motion';
-import { Award, Code2, GraduationCap } from 'lucide-react';
-import type { ExperienceItem } from '@/lib/types';
+import { Award, Code2, GraduationCap, BadgeCheck } from 'lucide-react';
+import type { ExperienceItem, Certification } from '@/lib/types';
 
 const TYPE_META = {
   leadership: { label: 'Leadership', Icon: Award },
@@ -15,7 +16,15 @@ const TYPE_META = {
   academic:   { label: 'Academic',   Icon: GraduationCap },
 } as const;
 
-export function Experience({ items }: { items: ExperienceItem[] }) {
+interface ExperienceProps {
+  items: ExperienceItem[];
+  certifications?: Certification[];
+}
+
+export function Experience({ items, certifications = [] }: ExperienceProps) {
+  // Mostrar solo las 6-7 certificaciones más relevantes (ordenadas por índice)
+  const topCertifications = certifications.slice(0, 7);
+
   return (
     <section id="experience" className="relative py-32 md:py-48">
       <div className="container-editorial">
@@ -110,6 +119,85 @@ export function Experience({ items }: { items: ExperienceItem[] }) {
             })}
           </div>
         </div>
+
+        {/* Certifications Section — Integrated elegantly */}
+        {topCertifications.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-32 md:mt-40 max-w-4xl mx-auto"
+          >
+            {/* Divider */}
+            <div className="flex items-center gap-4 mb-12">
+              <div className="flex-1 h-px bg-gradient-to-r from-mist/20 via-mist/10 to-transparent" />
+              <div className="text-[10px] tracking-[0.3em] uppercase text-silver/60 font-mono">
+                Credentials
+              </div>
+              <div className="flex-1 h-px bg-gradient-to-l from-mist/20 via-mist/10 to-transparent" />
+            </div>
+
+            {/* Certifications Header */}
+            <div className="mb-10">
+              <h3 className="font-display text-2xl md:text-3xl text-mist mb-3">
+                Technical <span className="text-metal">Credentials</span>
+              </h3>
+              <p className="text-mist/60 text-sm max-w-2xl">
+                Certifications and credentials validating technical expertise and professional development.
+              </p>
+            </div>
+
+            {/* Certifications Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {topCertifications.map((cert, idx) => (
+                <motion.div
+                  key={cert.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-30px' }}
+                  transition={{ duration: 0.7, delay: idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                  className="group backdrop-blur-lg border border-white/5 bg-white/[0.01] rounded-2xl p-5 md:p-6 hover:bg-white/[0.03] hover:border-white/10 transition-all duration-500"
+                >
+                  <div className="flex items-start gap-4">
+                    {/* Icon */}
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl border border-metal/20 bg-metal/5 flex items-center justify-center group-hover:bg-metal/10 transition-colors">
+                      <BadgeCheck className="w-5 h-5 text-metal/80" strokeWidth={1.5} />
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-mist text-sm leading-snug text-balance font-medium group-hover:text-metal transition-colors">
+                        {cert.name}
+                      </h4>
+                      <div className="mt-2 flex flex-col gap-1">
+                        <div className="text-[11px] text-silver/70">
+                          {cert.organization}
+                        </div>
+                        <div className="text-[10px] text-silver/50 font-mono">
+                          {cert.year}
+                        </div>
+                      </div>
+
+                      {/* Verify link if available */}
+                      {cert.verify_url && (
+                        <a
+                          href={cert.verify_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="mt-4 inline-flex items-center gap-1.5 text-[10px] tracking-[0.22em] uppercase text-metal/60 hover:text-metal transition-colors"
+                        >
+                          <span>Verify</span>
+                          <span aria-hidden>↗</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   );

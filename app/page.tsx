@@ -1,49 +1,51 @@
 /**
- * Página raíz — orquesta todas las secciones del portfolio.
+ * Home Page — Premium cinematic landing
  *
- * Server Component: fetchea datos desde Supabase (con fallback estático)
- * y los pasa como props al cliente. Esto da:
- *   - SEO óptimo (HTML rendered)
- *   - Hidratación rápida
- *   - Componentes interactivos donde se necesitan
+ * Contiene:
+ *  - Intro cinematográfica
+ *  - Hero Section premium
+ *  - Resume / CV elegante
+ *  - Brief introduction elegante
+ *  - CTA principal hacia otras páginas
+ *
+ * El contenido detallado está en páginas separadas.
  */
-
-import {
-  fetchProjects, fetchCertifications, fetchExperience, fetchSettings,
-} from '@/lib/queries';
 
 import { PageShell } from '@/components/PageShell';
 import { Hero } from '@/components/sections/Hero';
-import { About } from '@/components/sections/About';
-import { Skills } from '@/components/sections/Skills';
-import { Experience } from '@/components/sections/Experience';
-import { Projects } from '@/components/sections/Projects';
-import { Certifications } from '@/components/sections/Certifications';
 import { Resume } from '@/components/sections/Resume';
-import { Contact } from '@/components/sections/Contact';
+import { fetchSettings } from '@/lib/queries';
 
 export default async function HomePage() {
-  // Fetch en paralelo
-  const [projects, certifications, experience, settings] = await Promise.all([
-    fetchProjects(),
-    fetchCertifications(),
-    fetchExperience(),
-    fetchSettings(),
-  ]);
+  const settings = await fetchSettings();
 
   return (
     <PageShell>
-      <Hero
-        imageUrl={settings?.hero_image_url}
-        tagline={settings?.hero_tagline}
-      />
-      <About />
-      <Skills />
-      <Experience items={experience} />
-      <Projects projects={projects} />
-      <Certifications items={certifications} />
+      <Hero />
+      
+      {/* Resume / CV Section */}
       <Resume cvUrl={settings?.cv_pdf_url} />
-      <Contact />
+      
+      {/* Breve introducción elegante */}
+      <section className="relative py-24 md:py-32">
+        <div className="container-editorial">
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="text-[15px] md:text-[17px] leading-[1.8] text-mist/75 text-balance mb-12">
+              I'm a software engineer specializing in AI systems, automation, and digital infrastructure. 
+              Explore my work, experience, and the technologies I'm passionate about.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a href="/about" className="btn-premium">
+                Learn More
+              </a>
+              <a href="/projects" className="btn-ghost">
+                See My Work <span aria-hidden>↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </PageShell>
   );
 }

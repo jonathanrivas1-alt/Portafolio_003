@@ -9,6 +9,8 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Instrument_Serif, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
+import CursorOrb from '@/components/ui/CursorOrb';
+import { RouteTransition } from '@/components/RouteTransition';
 
 const sans = Inter({
   subsets: ['latin'],
@@ -62,6 +64,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${sans.variable} ${display.variable} ${mono.variable}`}>
       <body className="bg-ink text-mist antialiased">
+        <RouteTransition />
+        <CursorOrb />
         {children}
       </body>
     </html>

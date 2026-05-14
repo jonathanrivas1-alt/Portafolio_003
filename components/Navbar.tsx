@@ -3,25 +3,27 @@
 /**
  * Navbar editorial minimalista. Aparece tras scroll con backdrop-blur.
  * - Logo monograma "JR"
- * - Links a secciones (smooth scroll)
+ * - Links a páginas multipágina o secciones (si estamos en home)
  * - Indicador de scroll
  */
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 const LINKS = [
-  { id: 'about',          label: 'About' },
-  { id: 'skills',         label: 'Skills' },
-  { id: 'experience',     label: 'Experience' },
-  { id: 'projects',       label: 'Work' },
-  { id: 'certifications', label: 'Awards' },
-  { id: 'contact',        label: 'Contact' },
+  { path: '/about',        label: 'About' },
+  { path: '/skills',       label: 'Skills' },
+  { path: '/experience',   label: 'Experience' },
+  { path: '/projects',     label: 'Work' },
+  { path: '/contact',      label: 'Contact' },
 ];
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -29,6 +31,8 @@ export function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  const isHome = pathname === '/';
 
   return (
     <motion.header
@@ -47,39 +51,39 @@ export function Navbar() {
         )}
       >
         {/* Monograma */}
-        <a href="#hero" className="group flex items-center gap-3" aria-label="Inicio">
+        <Link href="/" className="group flex items-center gap-3" aria-label="Inicio">
           <span className="text-mist text-xs tracking-[0.3em] font-mono">
             <span className="text-metal">JR</span>
             <span className="text-silver/60 ml-2 hidden sm:inline">/ ENGINEER</span>
           </span>
-        </a>
+        </Link>
 
         {/* Links */}
         <nav className="hidden md:flex items-center gap-1">
           {LINKS.map(link => (
-            <a
-              key={link.id}
-              href={`#${link.id}`}
+            <Link
+              key={link.path}
+              href={link.path}
               className="px-3 py-2 text-[11px] tracking-[0.22em] uppercase text-mist/55 hover:text-mist transition-colors"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
         {/* CTA */}
-        <a
-          href="#contact"
+        <Link
+          href="/contact"
           className="btn-premium text-[10px] hidden md:inline-flex"
         >
           <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-300/80 animate-pulse-soft" />
           Available
-        </a>
+        </Link>
 
         {/* Mobile menu trigger (simple) */}
-        <a href="#contact" className="md:hidden text-[11px] tracking-widest text-mist/80">
+        <Link href="/contact" className="md:hidden text-[11px] tracking-widest text-mist/80">
           Contact ↗
-        </a>
+        </Link>
       </div>
     </motion.header>
   );

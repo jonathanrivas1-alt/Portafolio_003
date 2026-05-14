@@ -49,12 +49,19 @@ body {
   width: 8px;
   height: 8px;
 }
-::-webkit-scrollbar-track { background: transparent; }
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 ::-webkit-scrollbar-thumb {
   background: rgba(156, 160, 168, 0.18);
   border-radius: 999px;
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(156, 160, 168, 0.34); }
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 160, 168, 0.34);
+}
 
 /* =========================================================================
    Reusable component classes
@@ -67,8 +74,13 @@ body {
   }
 
   /* Tipografía editorial */
-  .text-balance { text-wrap: balance; }
-  .text-pretty  { text-wrap: pretty; }
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
 
   /* Glassmorphism elegante */
   .glass {
@@ -90,12 +102,13 @@ body {
     @apply relative inline-flex items-center justify-center gap-2 overflow-hidden;
     @apply px-6 py-3 rounded-full text-sm tracking-widest uppercase;
     @apply transition-all duration-500;
-    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
     border: 1px solid rgba(255, 255, 255, 0.12);
   }
+
   .btn-premium:hover {
     border-color: rgba(255, 255, 255, 0.32);
-    box-shadow: 0 0 40px -8px rgba(255,255,255,0.18);
+    box-shadow: 0 0 40px -8px rgba(255, 255, 255, 0.18);
   }
 
   .btn-ghost {
@@ -106,9 +119,10 @@ body {
   /* Card minimalista premium */
   .card-premium {
     @apply relative rounded-2xl p-6 md:p-8 transition-all duration-700;
-    background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.005));
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.005));
     border: 1px solid rgba(255, 255, 255, 0.06);
   }
+
   .card-premium:hover {
     border-color: rgba(255, 255, 255, 0.15);
     transform: translateY(-2px);
@@ -118,6 +132,7 @@ body {
   .eyebrow {
     @apply inline-flex items-center gap-3 text-[11px] tracking-[0.28em] uppercase text-silver;
   }
+
   .eyebrow::before {
     content: '';
     @apply inline-block w-8 h-px bg-silver/40;
@@ -134,7 +149,7 @@ body {
   /* Líneas divisorias finas */
   .hairline {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
   }
 
   /* Input usado dentro del Admin Panel */
@@ -163,8 +178,8 @@ body {
    ========================================================================= */
 .grid-bg {
   background-image:
-    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
@@ -177,16 +192,339 @@ body {
   margin-left: 2px;
   animation: caretBlink 1s steps(2) infinite;
 }
+
 @keyframes caretBlink {
-  to { opacity: 0; }
+  to {
+    opacity: 0;
+  }
 }
 
 /* =========================================================================
    Reduced motion
    ========================================================================= */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* =========================================================================
+   INTRO ANIMATION: ECG + PARTICLES + ORB
+   ========================================================================= */
+.ecg-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.ecg-line {
+  position: absolute;
+  top: 50%;
+  left: -120%;
+  width: 240%;
+  height: 2px;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      white,
+      rgba(255, 255, 255, 0.1),
+      transparent);
+
+  filter: blur(0.4px);
+
+  clip-path: polygon(0% 50%,
+      10% 50%,
+      12% 45%,
+      13% 55%,
+      14% 20%,
+      15% 80%,
+      16% 50%,
+      20% 50%,
+      22% 40%,
+      23% 60%,
+      24% 50%,
+      100% 50%);
+}
+
+.ecg-1 {
+  animation: ecgMove 6s linear infinite;
+  opacity: 0.4;
+}
+
+.ecg-2 {
+  animation: ecgMove 3.5s linear infinite;
+  opacity: 0.7;
+}
+
+.ecg-3 {
+  animation: ecgMove 1.8s linear infinite;
+  opacity: 1;
+}
+
+@keyframes ecgMove {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(50%);
+  }
+}
+
+.particles-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  animation: particleMove 4s ease-in-out infinite;
+}
+
+@keyframes particleMove {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(50vw - 50%),
+        calc(50vh - 50%)) scale(0);
+
+    opacity: 0;
+  }
+}
+
+.orb-wrapper {
+  position: relative;
+  width: 260px;
+  height: 260px;
+}
+
+.orb-core {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+
+  background:
+    radial-gradient(circle at center,
+      rgba(255, 255, 255, 0.95),
+      rgba(255, 255, 255, 0.12),
+      transparent 70%);
+
+  filter: blur(1px);
+
+  animation: pulseOrb 6s ease-in-out infinite;
+}
+
+.orb-ring {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  animation:
+    morphBlob 8s ease-in-out infinite,
+    rotateOrb 20s linear infinite;
+
+  backdrop-filter: blur(20px);
+}
+
+.orb-ring.delay {
+  inset: -35px;
+  animation-duration: 10s, 28s;
+  opacity: 0.5;
+}
+
+@keyframes pulseOrb {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes rotateOrb {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes morphBlob {
+  0% {
+    border-radius: 42% 58% 63% 37% / 40% 45% 55% 60%;
+  }
+
+  25% {
+    border-radius: 58% 42% 30% 70% / 60% 30% 70% 40%;
+  }
+
+  50% {
+    border-radius: 30% 70% 70% 30% / 30% 60% 40% 70%;
+  }
+
+  75% {
+    border-radius: 64% 36% 55% 45% / 50% 65% 35% 50%;
+  }
+
+  100% {
+    border-radius: 42% 58% 63% 37% / 40% 45% 55% 60%;
+  }
+}
+
+.side-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 0 10px rgba(255,255,255,0.9);
+}
+
+.left-particle {
+  left: -20px;
+  animation: moveFromLeft 3s ease-in-out infinite;
+}
+
+.right-particle {
+  right: -20px;
+  animation: moveFromRight 3s ease-in-out infinite;
+}
+
+@keyframes moveFromLeft {
+  0% {
+    transform: translateX(0) scale(0.4);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(55vw) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes moveFromRight {
+  0% {
+    transform: translateX(0) scale(0.4);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(-55vw) scale(0);
+    opacity: 0;
+  }
+}
+
+.universe-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.95);
+
+  box-shadow:
+    0 0 8px rgba(255,255,255,0.9),
+    0 0 20px rgba(255,255,255,0.3);
+
+  animation-duration: 4s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes fromLeft {
+  0% {
+    transform: translateX(0) scale(0.2);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(55vw) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes fromRight {
+  0% {
+    transform: translateX(0) scale(0.2);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(-55vw) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes fromTop {
+  0% {
+    transform: translateY(0) scale(0.2);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(55vh) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes fromBottom {
+  0% {
+    transform: translateY(0) scale(0.2);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-55vh) scale(0);
+    opacity: 0;
+  }
+}
+
