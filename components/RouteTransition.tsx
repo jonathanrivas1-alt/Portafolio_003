@@ -5,20 +5,22 @@
 
 'use client';
 
-import { usePathname, useSearchParams } from 'next/navigation';
+
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 export function RouteTransition() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     setIsTransitioning(true);
     const timer = setTimeout(() => setIsTransitioning(false), 500);
     return () => clearTimeout(timer);
-  }, [pathname, searchParams]);
+
+  }, [pathname]);
 
   return (
     <motion.div
@@ -30,3 +32,4 @@ export function RouteTransition() {
     />
   );
 }
+
